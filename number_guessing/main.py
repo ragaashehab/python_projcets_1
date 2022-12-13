@@ -9,39 +9,41 @@ user has to guess the num, with hints
 
 import random
 attempt_lst = []
-
 def show_result():
     if len(attempt_lst) ==0:
         print("you are the first one")
     else:
-        print("best player got it in {} attempts".format(min(attempt_lst)))
-
-def check_num(n, g):
-    if (1 > g) or (g > 20):
-        result = "invalid range"
-    elif (n - g) < 0:
-        result = "hint: decrease your guess"
-    elif (n - g) > 0:
-        result = "hint: increase your guess"
-    elif g == n:
-        result = "you win"
-    return result
+        m = min(attempt_lst)
+        print("best player got it in {} attempts".format(m))
 
 def play_game():
-    wanna = input('Number guessing game wanna play? YES /NO').strip()
-    print(wanna.lower())
+    n = random.randint(1, 10)
+    print(n)
     attempt = 0
-    n = random.randint(1,10)
-    print (n ,attempt)
-    while wanna.lower() == 'yes':
-        guess = int(input("Enter your Guess a number between 1, 20: "))
-        print(check_num(n,guess))
-        attempt+=1
-        wanna = input("try again ? YES /NO ")
-    #show_result()
+    guess_again = "y"
+    while attempt <= 10:
+        g = int(input("Enter your Guess a number between 1, 10: "))
+        if (1 > g) or (g > 10):
+            print("invalid range")
+            attempt +=1
+        elif (n - g) < 0:
+            print("hint: decrease your guess")
+            attempt += 1
+        elif (n - g) > 0:
+            print("hint: increase your guess")
+            attempt += 1
+        elif g == n:
+            print("you won")
+            return attempt
+    return attempt
 
 if __name__ == '__main__':
-    play_game()
-
+    wanna = input('Number guessing game wanna play? Y/N ').strip()
+    while wanna.lower() == "y":
+        attempt = play_game()
+        print("you got it in {} attempts ".format(attempt))
+        attempt_lst.append(attempt)
+        show_result()
+        wanna = input('Number guessing game wanna play? Y/N ').strip()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
